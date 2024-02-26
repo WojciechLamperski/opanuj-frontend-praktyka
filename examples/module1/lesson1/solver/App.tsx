@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
-import { f1, f2, f3, f4 } from './functions';
+import { useState } from 'react';
+import { Operations } from './Operations.tsx';
 
 const App = () => {
-  const [numA, setNumA] = useState<number>(0);
-  const [numB, setNumB] = useState<number>(0);
-  const [numC, setNumC] = useState<number | string>(0);
+  const [x, setX] = useState<number>(0);
+  const [y, setY] = useState<number>(0);
+  const [result, setResult] = useState<number | string>(0);
 
-  const doWork = (func: (a: number, b: number) => number) => {
-    setNumC(func(numA, numB));
-  };
+  let Props = {
+    setResult: setResult,
+    x: x,
+    y: y
+  }
 
   return (
     <div>
@@ -16,43 +18,19 @@ const App = () => {
         <input
           type="number"
           className="rounded-md shadow-md p-4"
-          value={numA}
-          onChange={(e) => setNumA(parseFloat(e.target.value))}
+          value={x}
+          onChange={(e) => setX(parseFloat(e.target.value))}
         />
         <input
           type="number"
           className="rounded-md shadow-md p-4"
-          value={numB}
-          onChange={(e) => setNumB(parseFloat(e.target.value))}
+          value={y}
+          onChange={(e) => setY(parseFloat(e.target.value))}
         />
       </div>
-      <div className="grid grid-cols-4 gap-x-4 my-4">
-        <button
-          className="bg-blue-200 px-2 py-4 text-lg hover:bg-blue-500 hover:text-white rounded-md"
-          onClick={() => doWork(f1)}
-        >
-          +
-        </button>
-        <button
-          className="bg-blue-200 px-2 py-4 text-lg hover:bg-blue-500 hover:text-white rounded-md"
-          onClick={() => doWork(f2)}
-        >
-          -
-        </button>
-        <button
-          className="bg-blue-200 px-2 py-4 text-lg hover:bg-blue-500 hover:text-white rounded-md"
-          onClick={() => doWork(f3)}
-        >
-          *
-        </button>
-        <button
-          className="bg-blue-200 px-2 py-4 text-lg hover:bg-blue-500 hover:text-white rounded-md"
-          onClick={() => doWork(f4)}
-        >
-          /
-        </button>
-      </div>
-      <div>Result: {numC}</div>
+      {/* Error handling for dividing by 0 is inside the component below */}
+      <Operations {...Props} />
+      <div>Result: {result}</div>
     </div>
   );
 };
